@@ -2,7 +2,7 @@ import * as LitJsSdkNodeJs from "@lit-protocol/lit-node-client-nodejs";
 import { checkAndSignAuthMessage } from "@lit-protocol/auth-browser";
 import { LitNetwork } from "@lit-protocol/constants";
 
-export async function encrypt() {
+export async function encrypt(message: string) {
   const client = new LitJsSdkNodeJs.LitNodeClientNodeJs({
     litNetwork: LitNetwork.Cayenne,
     defaultAuthCallback: checkAndSignAuthMessage,
@@ -27,7 +27,6 @@ export async function encrypt() {
       },
     },
   ];
-  const message = "Hello pls work";
   const chain = "ethereum";
   const { ciphertext, dataToEncryptHash } = await LitJsSdkNodeJs.encryptString(
     {
@@ -43,7 +42,7 @@ export async function encrypt() {
   return { ciphertext, dataToEncryptHash };
 }
 
-async function decrypt(ciphertext: any, dataToEncryptHash: any) {
+export async function decrypt(ciphertext: any, dataToEncryptHash: any) {
   const client = new LitJsSdkNodeJs.LitNodeClientNodeJs({
     litNetwork: LitNetwork.Cayenne,
     defaultAuthCallback: checkAndSignAuthMessage,

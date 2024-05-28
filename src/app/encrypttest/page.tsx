@@ -1,100 +1,22 @@
 "use client";
 import React, { useState } from "react";
-import * as LitJsSdkNodeJs from "@lit-protocol/lit-node-client-nodejs";
-import { checkAndSignAuthMessage } from "@lit-protocol/auth-browser";
-import { LitNetwork } from "@lit-protocol/constants";
-
+import { encrypt, decrypt } from "@/helper/lit";
 function page() {
   const [ciphertext, setCiphertext] = useState("");
   const [dataToEncryptHash, setDataToEncryptHash] = useState("");
-  async function encrypt() {
-    const client = new LitJsSdkNodeJs.LitNodeClientNodeJs({
-      litNetwork: LitNetwork.Cayenne,
-      defaultAuthCallback: checkAndSignAuthMessage,
-    });
-
-    await client.connect();
-
-    const authSig = await checkAndSignAuthMessage({
-      chain: "ethereum",
-    });
-    console.log("AuthSig: ", authSig);
-    const accessControlConditions = [
-      {
-        contractAddress: "",
-        standardContractType: "",
-        chain: "ethereum",
-        method: "eth_getBalance",
-        parameters: [":userAddress", "latest"],
-        returnValueTest: {
-          comparator: ">=",
-          value: "000000000000", // 0.000001 ETH
-        },
-      },
-    ];
-    const message = "Hello pls work";
-    const chain = "ethereum";
-    const { ciphertext, dataToEncryptHash } =
-      await LitJsSdkNodeJs.encryptString(
-        {
-          accessControlConditions: accessControlConditions,
-          // chain: chain,
-          dataToEncrypt: message,
-          // authSig: authSig,
-        },
-        client
-      );
-    console.log("Ciphertext: ", ciphertext);
-    console.log("DataToEncryptHash: ", dataToEncryptHash);
+  const handleEncrypt = async () => {
+    const { ciphertext, dataToEncryptHash } = await encrypt("Remo_mama");
     setCiphertext(ciphertext);
     setDataToEncryptHash(dataToEncryptHash);
-  }
-  async function decrypt() {
-    const client = new LitJsSdkNodeJs.LitNodeClientNodeJs({
-      litNetwork: LitNetwork.Cayenne,
-      defaultAuthCallback: checkAndSignAuthMessage,
-    });
-
-    await client.connect();
-
-    const accessControlConditions = [
-      {
-        contractAddress: "",
-        standardContractType: "",
-        chain: "ethereum",
-        method: "eth_getBalance",
-        parameters: [":userAddress", "latest"],
-        returnValueTest: {
-          comparator: ">=",
-          value: "000000000000", // 0.000001 ETH
-        },
-      },
-    ];
-    const message = "Hello pls work";
-    const chain = "ethereum";
-    const authSig = await checkAndSignAuthMessage({
-      chain: "ethereum",
-    });
-    console.log("AuthSig: ", authSig);
-    const decryptedString = await LitJsSdkNodeJs.decryptToString(
-      {
-        accessControlConditions: accessControlConditions,
-        chain: chain,
-        ciphertext,
-        dataToEncryptHash,
-        authSig: authSig,
-      },
-      client
-    );
-    console.log("Decrypted Stringasdsad: ", decryptedString);
-
-    return { decryptedString };
-  }
+  };
+  const handleDecrypt = async () => {
+    await decrypt(ciphertext, dataToEncryptHash);
+  };
   return (
     <div>
-      <button onClick={encrypt}>encrypt</button>
+      <button onClick={handleEncrypt}>encrypt</button>
       <br />
-      <button onClick={decrypt}>decrypt</button>
+      <button onClick={handleDecrypt}>decrypt</button>
     </div>
   );
 }
