@@ -9,9 +9,11 @@ export async function encrypt(message: string) {
   });
 
   await client.connect();
+  const latestBlockhash = await client.getLatestBlockhash();
 
   const authSig = await checkAndSignAuthMessage({
     chain: "ethereum",
+    nonce: latestBlockhash,
   });
   console.log("AuthSig: ", authSig);
   const accessControlConditions = [
@@ -65,8 +67,10 @@ export async function decrypt(ciphertext: any, dataToEncryptHash: any) {
   ];
   const message = "Hello pls work";
   const chain = "ethereum";
+  const latestBlockhash = await client.getLatestBlockhash();
   const authSig = await checkAndSignAuthMessage({
     chain: "ethereum",
+    nonce: latestBlockhash,
   });
   console.log("AuthSig: ", authSig);
   const decryptedString = await LitJsSdkNodeJs.decryptToString(
