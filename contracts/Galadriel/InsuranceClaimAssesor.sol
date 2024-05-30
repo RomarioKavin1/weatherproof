@@ -2,7 +2,7 @@
 pragma solidity ^0.8.9;
 import "./IOracle.sol";
 
-contract PremiumCalculationAgent {
+contract InsuranceClaimAssesor {
 
     string public prompt;
 
@@ -36,8 +36,7 @@ contract PremiumCalculationAgent {
     ) {
         owner = msg.sender;
         oracleAddress = initialOracleAddress;
-        prompt = "Based on the provided weather data, time period, and location, perform a comprehensive risk assessment. Provide a detailed analysis of the risk level, calculate the premium amount, and determine the insurance coverage. Use relevant historical data, forecast predictions, and geographical considerations to ensure an accurate and fair assessment.Give me the response in the following format {risk_level,premiumAmountPercentage} with no explanation ";
-
+        prompt = "You are an Insurance Provider.The coustomer is claiming a weather insurance policy for a specific date.Location data,weather history and the insurance policy will be as follows, also use the internet to check the weather history.Give the output as {true,""} if the insurance can be provided else Provide {false,the reason why} when the insurance cannot be provided.";
         config = IOracle.OpenAiRequest({
             model : "gpt-4-turbo-preview",
             frequencyPenalty : 21, // > 20 for null

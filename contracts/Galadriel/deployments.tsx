@@ -1,0 +1,2 @@
+const premiumCalculationAgent = "0xc6Ba0C2309e454B8485828717866289AdE432DCf";
+const ClaimAssesorAgent = "0x8991937889E137C5e02eBd9aA36cE2CFEB5f8819";

@@ -15,7 +15,6 @@ interface IOracle {
 
     struct OpenAiRequest {
         string model;
-        // int -20 - 20, Mapped to float -2.0 - 2.0. If bigger than 20 then null
         int8 frequencyPenalty;
         // JSON string or empty string
         string logitBias;
