@@ -10,4 +10,4 @@ const galadrielNetwork = {
   blockExplorerUrls: ["https://explorer.galadriel.com"],
 };
 export const premiumAgentContract =
-  "0xc6Ba0C2309e454B8485828717866289AdE432DCf";
+  "0x6EB28494756126eCc853A502E15a6D2F76e889AD";

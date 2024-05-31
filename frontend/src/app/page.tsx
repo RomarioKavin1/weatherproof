@@ -7,28 +7,88 @@ import { config } from "@/config";
 import { useState } from "react";
 import { premiumAgentContract } from "@/helper/constants";
 import { readPremium } from "@/helper/getters";
-import { request } from "http";
-import { requestPremium } from "@/helper/setters";
-
+interface RiskAssessment {
+  risk_level: number;
+  premiumAmountPercentage: number;
+  MaximumInsuranceAmount: number;
+}
 export default function Home() {
-  const [response, setResponse] = useState<readonly String[]>();
+  const [response, setResponse] = useState<string>();
   const { writeContract } = useWriteContract();
+  const [RiskAssessment, setRiskAssessment] = useState<RiskAssessment | null>(
+    null
+  );
 
+  const requestPremium = async (
+    location: string,
+    days: string,
+    condition: string
+  ) => {
+    writeContract({
+      abi: premium,
+      address: premiumAgentContract,
+      functionName: "runAgent",
+      args: [`location:${location} on ${days} for ${condition}`, 5],
+    });
+  };
+  const parseRiskAssessment = (data: string): RiskAssessment => {
+    const regex =
+      /{risk_level:(\d+(\.\d+)?)\s+premiumAmountPercentage:(\d+(\.\d+)?)\s+MaximumInsuranceAmount:(\d+)}/;
+    const match = data.match(regex);
+
+    if (match) {
+      const risk_level = parseFloat(match[1]);
+      const premiumAmountPercentage = parseFloat(match[3]);
+      const MaximumInsuranceAmount = parseInt(match[5], 10);
+
+      return {
+        risk_level,
+        premiumAmountPercentage,
+        MaximumInsuranceAmount,
+      };
+    } else {
+      throw new Error("Failed to extract values from the data string");
+    }
+  };
   return (
     <div>
       <ConnectKitButton theme="retro" />
       <button
-        onClick={() => requestPremium("13.0843N 80.2705E", "days", "condition")}
+        onClick={() =>
+          requestPremium(
+            "13.0843N 80.2705E",
+            "01-06-2024",
+            "Rainfall above 100mm"
+          )
+        }
       >
         Transfer
       </button>
       <br />
-      <button onClick={() => readPremium(BigInt(6))}>Read</button>
+      <button
+        onClick={async () => {
+          const fetch = await readPremium(BigInt(1));
+          console.log(fetch[4]);
+
+          setResponse(fetch[4]);
+          setRiskAssessment(parseRiskAssessment(fetch[4]));
+        }}
+      >
+        Read
+      </button>
       <br />
       <div>
-        {response?.map((item) => (
-          <div key={1}>{item}</div>
-        ))}
+        {response && (
+          <div>
+            <h1>Risk:{RiskAssessment?.risk_level}</h1>
+            <h1>
+              premiumAmountPercentage:{RiskAssessment?.premiumAmountPercentage}
+            </h1>
+            <h1>
+              MaximumInsuranceAmount:{RiskAssessment?.MaximumInsuranceAmount}
+            </h1>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -30,110 +30,6 @@ export const premium = [
     type: "event",
   },
   {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "newOracleAddress",
-        type: "address",
-      },
-    ],
-    name: "OracleAddressUpdated",
-    type: "event",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "agentRuns",
-    outputs: [
-      {
-        internalType: "address",
-        name: "owner",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "responsesCount",
-        type: "uint256",
-      },
-      {
-        internalType: "uint8",
-        name: "max_iterations",
-        type: "uint8",
-      },
-      {
-        internalType: "bool",
-        name: "is_finished",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "agentId",
-        type: "uint256",
-      },
-    ],
-    name: "getMessageHistoryContents",
-    outputs: [
-      {
-        internalType: "string[]",
-        name: "",
-        type: "string[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "agentId",
-        type: "uint256",
-      },
-    ],
-    name: "getMessageHistoryRoles",
-    outputs: [
-      {
-        internalType: "string[]",
-        name: "",
-        type: "string[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "runId",
-        type: "uint256",
-      },
-    ],
-    name: "isRunFinished",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "uint256",
@@ -237,30 +133,17 @@ export const premium = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "oracleAddress",
-    outputs: [
+    anonymous: false,
+    inputs: [
       {
+        indexed: true,
         internalType: "address",
-        name: "",
+        name: "newOracleAddress",
         type: "address",
       },
     ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "prompt",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "OracleAddressUpdated",
+    type: "event",
   },
   {
     inputs: [
@@ -297,6 +180,123 @@ export const premium = [
     name: "setOracleAddress",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "agentRuns",
+    outputs: [
+      {
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "responsesCount",
+        type: "uint256",
+      },
+      {
+        internalType: "uint8",
+        name: "max_iterations",
+        type: "uint8",
+      },
+      {
+        internalType: "bool",
+        name: "is_finished",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "agentId",
+        type: "uint256",
+      },
+    ],
+    name: "getMessageHistoryContents",
+    outputs: [
+      {
+        internalType: "string[]",
+        name: "",
+        type: "string[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "agentId",
+        type: "uint256",
+      },
+    ],
+    name: "getMessageHistoryRoles",
+    outputs: [
+      {
+        internalType: "string[]",
+        name: "",
+        type: "string[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "runId",
+        type: "uint256",
+      },
+    ],
+    name: "isRunFinished",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "oracleAddress",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "prompt",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
 ] as const;

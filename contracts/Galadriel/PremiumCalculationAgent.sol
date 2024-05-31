@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.13;
 import "./IOracle.sol";
 
 contract PremiumCalculationAgent {
@@ -36,7 +36,7 @@ contract PremiumCalculationAgent {
     ) {
         owner = msg.sender;
         oracleAddress = initialOracleAddress;
-        prompt = "Based on the provided weather data, time period, and location, perform a comprehensive risk assessment. Provide a detailed analysis of the risk level, calculate the premium amount, and determine the insurance coverage. Use relevant historical data, forecast predictions, and geographical considerations to ensure an accurate and fair assessment.Give me the response in the following format {risk_level,premiumAmountPercentage} with no explanation ";
+        prompt = "Based on the provided weather data, time period, and location, perform a comprehensive risk assessment. Fetch current and forecasted weather data from the internet, and use relevant historical data and geographical considerations. Provide a detailed analysis of the risk level, calculate the premium amount, and determine the maximum insurance coverage. Ensure an accurate and fair assessment. Give the response in the following format with no explanation text: {risk_level:float premiumAmountPercentage:float MaximumInsuranceAmount:int}";
 
         config = IOracle.OpenAiRequest({
             model : "gpt-4-turbo-preview",
