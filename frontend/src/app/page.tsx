@@ -1,40 +1,35 @@
 "use client";
-import { readFileContent, Upload } from "@/helper/lighthouse";
-import { decrypt, encrypt } from "@/helper/lit";
+import { ConnectKitButton } from "connectkit";
+import { useWriteContract } from "wagmi";
+import { premium } from "@/helper/abi";
+import { readContract } from "@wagmi/core";
+import { config } from "@/config";
 import { useState } from "react";
+import { premiumAgentContract } from "@/helper/constants";
+import { readPremium } from "@/helper/getters";
+import { request } from "http";
+import { requestPremium } from "@/helper/setters";
+
 export default function Home() {
-  const [ciphertext, setCiphertext] = useState("");
-  const [dataToEncryptHash, setDataToEncryptHash] = useState("");
-  const [cid, setCid] = useState("");
-  const handleEncrypt = async () => {
-    const { ciphertext, dataToEncryptHash } = await encrypt(
-      "Lat: 12.9716, Long: 77.5946,Reason:Rainfall"
-    );
-    setCiphertext(ciphertext);
-    setDataToEncryptHash(dataToEncryptHash);
-    const cid = await Upload({
-      details: `{"ciphertext": "${ciphertext}", "dataToEncryptHash": "${dataToEncryptHash}"}`,
-    });
-    setCid(cid);
-    console.log(cid);
-  };
-  const handleDecrypt = async () => {
-    await decrypt("Qma7Z3mU7oVudcV7vWp2HJcCRqHt7D4HkNjWrEXkvWdzbv");
-  };
+  const [response, setResponse] = useState<readonly String[]>();
+  const { writeContract } = useWriteContract();
+
   return (
     <div>
-      <button onClick={handleEncrypt}>Upload</button>
-      <br />
+      <ConnectKitButton theme="retro" />
       <button
-        onClick={() =>
-          readFileContent("Qma7Z3mU7oVudcV7vWp2HJcCRqHt7D4HkNjWrEXkvWdzbv")
-        }
+        onClick={() => requestPremium("13.0843N 80.2705E", "days", "condition")}
       >
-        {" "}
-        Read
+        Transfer
       </button>
       <br />
-      <button onClick={handleDecrypt}>Decrypt</button>
+      <button onClick={() => readPremium(BigInt(6))}>Read</button>
+      <br />
+      <div>
+        {response?.map((item) => (
+          <div key={1}>{item}</div>
+        ))}
+      </div>
     </div>
   );
 }
