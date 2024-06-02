@@ -30,8 +30,7 @@ export async function fetchWeatherData(
   latitude: number,
   longitude: number
 ): Promise<string> {
-  const bearerToken =
-    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb21hcmlvN2thdmluQGdtYWlsLmNvbSIsInNjb3BlcyI6WyJDVVNUT01FUl9VU0VSIl0sInVzZXJJZCI6IjVjNWYzZDgwLTFhZDAtMTFlZi1hMmNiLWZiMTgyMGNhNzk1YyIsImZpcnN0TmFtZSI6IlJvbWFyaW8iLCJsYXN0TmFtZSI6IkthdmluIiwiZW5hYmxlZCI6dHJ1ZSwiaXNQdWJsaWMiOmZhbHNlLCJ0ZW5hbnRJZCI6IjI1MGZjZTAwLTg1Y2YtMTFlYy05NmUxLWQ3ZDRjZjIwMGNjOSIsImN1c3RvbWVySWQiOiI1YzVjMzA0MC0xYWQwLTExZWYtYTJjYi1mYjE4MjBjYTc5NWMiLCJpc3MiOiJ3ZWF0aGVyeG0uY29tIiwiaWF0IjoxNzE3MzM0MzA4LCJleHAiOjE3MTczNDMzMDh9.D_C1svWZf4iNVu0WxDHwHuO2Cu_9DgYeZUprrLkHi7q06wUph6B1HcGGJ1db8nNj6tMvmTS9QG9ISb30aQrh8g";
+  const bearerToken = "";
 
   try {
     // Fetch weather cells
