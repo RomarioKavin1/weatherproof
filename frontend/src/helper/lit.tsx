@@ -45,7 +45,7 @@ export async function encrypt(message: string) {
   return { ciphertext, dataToEncryptHash };
 }
 
-export async function decrypt(cid: string) {
+export async function decrypt(cid: string): Promise<string> {
   const [ciphertext, dataToEncryptHash] = await readFileContent(cid);
   console.log("Ciphertext: ", ciphertext);
   console.log("DataToEncryptHash: ", dataToEncryptHash);
@@ -89,8 +89,9 @@ export async function decrypt(cid: string) {
     );
     console.log("Decrypted Stringasdsad: ", decryptedString);
 
-    return { decryptedString };
+    return decryptedString;
   } else {
     console.log("Ciphertext or DataToEncryptHash not found");
+    return "Ciphertext or DataToEncryptHash not found";
   }
 }

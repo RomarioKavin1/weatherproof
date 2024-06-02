@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import SearchLoc from "./SearchLoc";
 import ComboComponent from "./ComboComponent";
@@ -20,6 +20,7 @@ interface CreateProps {
   setagentid: (agentid: number) => void;
   setStep: (step: number) => void;
   setPolicyDetails: (policyDetails: PolicyDetails | null) => void;
+  Location: (Location: Location | null) => void;
 }
 
 interface PolicyDetails {
@@ -31,6 +32,7 @@ export const CreateForm: React.FC<CreateProps> = ({
   setagentid,
   setStep,
   setPolicyDetails,
+  Location,
 }) => {
   const [policyName, setPolicyName] = useState("");
   const [description, setDescription] = useState("");
@@ -46,7 +48,9 @@ export const CreateForm: React.FC<CreateProps> = ({
     lat: "13.060499",
     lon: "80.254417",
   });
-
+  useEffect(() => {
+    Location(selectedLocation);
+  }, [selectedLocation]);
   const weather1 = [
     { id: 1, name: "Rain" },
     { id: 2, name: "Temperature" },

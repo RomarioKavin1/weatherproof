@@ -5,6 +5,7 @@ import Progress from "@/components/Progress";
 import ViewData from "@/components/ViewData";
 import Step3 from "@/components/Step3";
 import React, { useState } from "react";
+import { CreateForm1 } from "@/components/CreateForm1";
 
 interface RiskAssessment {
   risk_level: number;
@@ -16,10 +17,6 @@ interface PolicyDetails {
   PolicyName: string;
   PolicyDescription: string;
 }
-interface Location {
-  lat: string;
-  lon: string;
-}
 
 function page() {
   const [step, setStep] = useState(1);
@@ -27,7 +24,6 @@ function page() {
   const [riskAssessment, setRiskAssessment] = useState<RiskAssessment | null>(
     null
   );
-  const [location, setLocation] = useState<Location | null>(null);
   const [policyDetails, setPolicyDetails] = useState<PolicyDetails | null>({
     PolicyName: "My Policy",
     PolicyDescription: "Policyy",
@@ -50,37 +46,12 @@ function page() {
       <Nav selected={0} />
       <div className="flex flex-col text-black pt-10 px-56">
         <div className="flex items-center justify-center font-bold text-6xl border-b-2 pb-3">
-          <p>Create Private Policy</p>
+          <p>Import Policy</p>
         </div>
-        <Progress currentStep={step} />
+
         {step === 1 && (
           <div className="m-8">
-            <CreateForm
-              setStep={setStep}
-              setagentid={setAgentid}
-              setPolicyDetails={setPolicyDetails}
-              Location={setLocation}
-            />
-          </div>
-        )}
-        {step === 2 && (
-          <ViewData
-            agentid={agentid}
-            setStep={setStep}
-            setRiskAssessmentParent={setRiskAssessment}
-            selAmount={setSelectedAmount}
-          />
-        )}
-        {step === 3 && riskAssessment && policyDetails && (
-          <div className="m-8">
-            <Step3
-              riskAssessment={riskAssessment}
-              policyDetails={policyDetails}
-              onEncrypt={handleEncrypt}
-              onPayPremium={handlePayPremium}
-              selectedAmount={selectedAmount}
-              Location={location}
-            />
+            <CreateForm1 />
           </div>
         )}
       </div>

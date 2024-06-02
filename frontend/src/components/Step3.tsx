@@ -11,7 +11,10 @@ interface RiskAssessment {
   premiumAmountPercentage: number;
   MaximumInsuranceAmount: number;
 }
-
+interface Location {
+  lat: string;
+  lon: string;
+}
 interface PolicyDetails {
   PolicyName: string;
   PolicyDescription: string;
@@ -23,6 +26,7 @@ interface Step3Props {
   onEncrypt: () => void;
   onPayPremium: () => void;
   selectedAmount: number;
+  Location: Location | null;
 }
 
 const Step3: React.FC<Step3Props> = ({
@@ -31,6 +35,7 @@ const Step3: React.FC<Step3Props> = ({
   onEncrypt,
   onPayPremium,
   selectedAmount,
+  Location,
 }) => {
   const [ciphertext, setCiphertext] = useState("");
   const [dataToEncryptHash, setDataToEncryptHash] = useState("");
@@ -51,6 +56,7 @@ const Step3: React.FC<Step3Props> = ({
       `Policy Name: ${policyDetails.PolicyName}`,
       `Policy Description: ${policyDetails.PolicyDescription}`,
       `Risk Level: ${riskAssessment.risk_level}`,
+      `Location Coordinates:${Location?.lat} ${Location?.lon}`,
       `Premium Amount Percentage: ${riskAssessment.premiumAmountPercentage}`,
       `Insurance Payout: ${selectedAmount}`,
     ];
@@ -62,8 +68,8 @@ const Step3: React.FC<Step3Props> = ({
       writeContract({
         abi: factoryabi,
         address: factory,
-        functionName: "deployInsurance",
-        args: [1, cid],
+        functionName: "deployInsuranceContract",
+        args: [BigInt(1), cid],
       });
     } catch (error) {
       console.error("Error deploying insurance:", error);
