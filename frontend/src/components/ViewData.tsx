@@ -11,9 +11,13 @@ interface RiskAssessment {
 function ViewData({
   agentid,
   setStep,
+  setRiskAssessmentParent,
+  selAmount,
 }: {
   agentid: number;
   setStep: (step: number) => void;
+  setRiskAssessmentParent: (riskAssessment: RiskAssessment) => void;
+  selAmount: (amount: number) => void;
 }) {
   const [loading, setLoading] = useState<boolean>(true);
   const [riskAssessment, setRiskAssessment] = useState<RiskAssessment | null>(
@@ -30,6 +34,7 @@ function ViewData({
           const fetch = await readPremium(BigInt(agentid));
           const parsedAssessment = parseRiskAssessment(fetch[fetch.length - 1]);
           setRiskAssessment(parsedAssessment);
+          setRiskAssessmentParent(parsedAssessment);
           setLoading(false);
           clearInterval(interval);
         }
@@ -105,16 +110,17 @@ function ViewData({
                           min="0"
                           max={riskAssessment.MaximumInsuranceAmount ?? 0}
                           value={selectedAmount}
-                          onChange={(e) =>
-                            setSelectedAmount(parseInt(e.target.value))
-                          }
+                          onChange={(e) => {
+                            setSelectedAmount(parseInt(e.target.value));
+                            selAmount(parseInt(e.target.value));
+                          }}
                           className="w-full mt-2"
                         />
 
                         <div className="mt-2 text-lg font-bold leading-6 text-gray-900">
                           Selected Amount:{" "}
                           <span className="font-semibold">
-                            {selectedAmount / 100}
+                            {selectedAmount / 100}GAL
                           </span>
                         </div>
                         <div className="mt-2 text-lg font-bold leading-6 text-gray-900">
@@ -124,6 +130,7 @@ function ViewData({
                               (selectedAmount / 100) *
                               (riskAssessment.premiumAmountPercentage / 100)
                             ).toFixed(2)}
+                            GAL
                           </span>
                         </div>
                       </div>

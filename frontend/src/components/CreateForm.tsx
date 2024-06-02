@@ -9,21 +9,31 @@ import { premium } from "@/helper/abi";
 import { premiumAgentContract } from "@/helper/constants";
 import DatePickerComponent from "./DatePickerComponent";
 import { Log } from "viem";
-import { set } from "date-fns";
+import { fetchWeatherData } from "@/helper/weatherxm";
+
 interface Location {
   lat: string;
   lon: string;
 }
+
 interface CreateProps {
   setagentid: (agentid: number) => void;
   setStep: (step: number) => void;
+  setPolicyDetails: (policyDetails: PolicyDetails | null) => void;
 }
-// Dynamic import of MapElement
 
-export const CreateForm: React.FC<CreateProps> = ({ setagentid, setStep }) => {
+interface PolicyDetails {
+  PolicyName: string;
+  PolicyDescription: string;
+}
+
+export const CreateForm: React.FC<CreateProps> = ({
+  setagentid,
+  setStep,
+  setPolicyDetails,
+}) => {
   const [policyName, setPolicyName] = useState("");
   const [description, setDescription] = useState("");
-  // Rest of the component code...
   const [weather, setWeather] = useState("Rain");
   const [rain, setRain] = useState("");
   const [temperature, setTemperature] = useState("");
@@ -36,6 +46,7 @@ export const CreateForm: React.FC<CreateProps> = ({ setagentid, setStep }) => {
     lat: "13.060499",
     lon: "80.254417",
   });
+
   const weather1 = [
     { id: 1, name: "Rain" },
     { id: 2, name: "Temperature" },
@@ -52,6 +63,7 @@ export const CreateForm: React.FC<CreateProps> = ({ setagentid, setStep }) => {
     ssr: false,
     loading: () => <p>Loading...</p>,
   });
+
   useEffect(() => {
     Map = dynamic(() => import("./MapElement"), {
       ssr: false,
@@ -59,6 +71,7 @@ export const CreateForm: React.FC<CreateProps> = ({ setagentid, setStep }) => {
     });
     console.log("Selected Location", selectedLocation);
   }, [selectedLocation]);
+
   const { writeContract } = useWriteContract();
   const requestPremium = async (
     location: string,
@@ -72,7 +85,15 @@ export const CreateForm: React.FC<CreateProps> = ({ setagentid, setStep }) => {
       args: [`location:${location} on ${days} for ${condition}`, 5],
     });
   };
-
+  const getweatherxm = async (lat: number, long: number) => {
+    fetchWeatherData(lat, long)
+      .then((weatherString) => {
+        return weatherString;
+      })
+      .catch((error) => {
+        return error;
+      });
+  };
   const abc = useWatchContractEvent({
     abi: premium,
     address: premiumAgentContract,
@@ -87,6 +108,7 @@ export const CreateForm: React.FC<CreateProps> = ({ setagentid, setStep }) => {
       }
     },
   });
+
   const handleFromDateChange = (date: Date | null) => {
     setFromDate(date);
   };
@@ -94,6 +116,7 @@ export const CreateForm: React.FC<CreateProps> = ({ setagentid, setStep }) => {
   const handleToDateChange = (date: Date | null) => {
     setToDate(date);
   };
+
   return (
     <div className="flex items-center justify-center">
       <div className="grid grid-cols-1 justify-center items-center">
@@ -113,7 +136,13 @@ export const CreateForm: React.FC<CreateProps> = ({ setagentid, setStep }) => {
                       type="text"
                       id="policy-name"
                       value={policyName}
-                      onChange={(e) => setPolicyName(e.target.value)}
+                      onChange={(e) => {
+                        setPolicyName(e.target.value);
+                        setPolicyDetails({
+                          PolicyName: e.target.value,
+                          PolicyDescription: description,
+                        });
+                      }}
                       className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     />
                   </div>
@@ -132,7 +161,13 @@ export const CreateForm: React.FC<CreateProps> = ({ setagentid, setStep }) => {
                     id="description"
                     rows={3}
                     value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    onChange={(e) => {
+                      setDescription(e.target.value);
+                      setPolicyDetails({
+                        PolicyName: policyName,
+                        PolicyDescription: e.target.value,
+                      });
+                    }}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
@@ -230,15 +265,21 @@ export const CreateForm: React.FC<CreateProps> = ({ setagentid, setStep }) => {
             <button
               type="button"
               className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              onClick={() =>
+              onClick={() => {
+                const weatherxmdata = getweatherxm(
+                  parseFloat(selectedLocation.lat),
+                  parseFloat(selectedLocation.lon)
+                );
                 requestPremium(
-                  `Use internet ${selectedLocation.lat} ${selectedLocation.lon}`,
+                  `Use internet ${selectedLocation.lat} ${
+                    selectedLocation.lon
+                  } Aproxweatherdata = ${weatherxmdata.toString()}`,
                   `${fromDate} to ${toDate}`,
                   weather == "Rain"
                     ? `${weather} ${rain} ${amount} cm`
                     : `${weather} ${temperature} ${amount} c`
-                )
-              }
+                );
+              }}
             >
               Ask AI
             </button>
