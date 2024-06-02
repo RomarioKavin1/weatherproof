@@ -11,4 +11,5 @@ const galadrielNetwork = {
 };
 export const premiumAgentContract =
   "0x6EB28494756126eCc853A502E15a6D2F76e889AD";
-export const factory = "0xb9B4777F47b6c408320a2F88A0c4A5903B962228";
+export const factory = "0xE6d883f244a25a5616882064b2f3b3A623ecE90d";
+export const claimassesor = "0xf6b3465229c3f530C90035a9a42Be569B5740561";
