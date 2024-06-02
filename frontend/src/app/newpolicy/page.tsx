@@ -1,5 +1,6 @@
 import Nav from "@/components/Nav";
 import PolicyCard from "@/components/PolicyCard";
+import Link from "next/link";
 import React from "react";
 
 function page() {
@@ -56,22 +57,35 @@ function page() {
     },
   ];
   return (
-    <div className="bg-white h-full">
-      <Nav selected={1} />
+    <div className="bg-white h-fit min-h-screen">
+      <Nav selected={0} />
       <div className=" flex flex-col text-black pt-10 px-56">
         <div className="flex items-center justify-center font-bold text-6xl border-b-2 pb-3">
-          <p>Public Policies</p>
+          <p>Create New Policy</p>
         </div>
-        <div className="flex flex-col-4 flex-wrap">
-          {policies.map((policy, index) => (
+        <div className="flex flex-col-4 flex-wrap justify-center items-center gap-5">
+          <PolicyCard
+            key={1}
+            imgsrc="/publicPolicy.svg"
+            title={"Public Policy"}
+            description={
+              "Create a New Public Policy which can be bought by anybody"
+            }
+            date={""}
+            createpolicy={true}
+          />
+          <Link href={"/newpolicy/privatepolicy"}>
             <PolicyCard
-              imgsrc="/block.svg"
-              key={index}
-              title={policy.title}
-              description={policy.description}
-              date={policy.date}
+              key={1}
+              imgsrc="/privatePolicy.svg"
+              title={"Private Policy"}
+              description={
+                "Create your own Private Policy accesible only to you"
+              }
+              date={""}
+              createpolicy={true}
             />
-          ))}
+          </Link>
         </div>
       </div>
     </div>

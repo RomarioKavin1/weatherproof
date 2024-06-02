@@ -5,12 +5,12 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ConnectKitButton } from "connectkit";
 
 const navigation = [
-  { name: "New Policy", href: "#", imgsrc: "/diamond.svg" },
-  { name: "Public Policies", href: "#", imgsrc: "/block.svg" },
-  { name: "Your Policies", href: "#", imgsrc: "/lshap.svg" },
+  { name: "New Policy", href: "/newpolicy", imgsrc: "/diamond.svg" },
+  { name: "Public Policies", href: "/home", imgsrc: "/block.svg" },
+  { name: "Your Policies", href: "/yourpolicies", imgsrc: "/lshap.svg" },
 ];
 
-export default function Nav() {
+export default function Nav({ selected }: { selected: number }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -21,7 +21,7 @@ export default function Nav() {
       >
         <div className="flex lg:flex-1">
           <a href="#" className="-m-1.5 p-1.5">
-            <span className="sr-only">Your Company</span>
+            <span className="sr-only">WeatherProof</span>
             <img className="h-8 w-auto" src="/sun.svg" alt="" />
           </a>
         </div>
@@ -36,9 +36,17 @@ export default function Nav() {
           </button>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
-          {navigation.map((item) => (
-            <div className="flex gap-2 hover:scale-110 ">
-              <img src={item.imgsrc} width={"25px"} />
+          {navigation.map((item, i) => (
+            <div
+              className={`flex gap-2 hover:scale-110 ${
+                i == selected && " bg-slate-300 px-3 py-1"
+              } rounded-full`}
+            >
+              <img
+                src={item.imgsrc}
+                width={"25px"}
+                className={`${i != selected && "mb-3"}`}
+              />
 
               <a
                 key={item.name}

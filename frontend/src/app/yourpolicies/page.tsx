@@ -57,15 +57,15 @@ function page() {
   ];
   return (
     <div className="bg-white h-full">
-      <Nav selected={1} />
+      <Nav selected={2} />
       <div className=" flex flex-col text-black pt-10 px-56">
         <div className="flex items-center justify-center font-bold text-6xl border-b-2 pb-3">
-          <p>Public Policies</p>
+          <p>Your Policies</p>
         </div>
         <div className="flex flex-col-4 flex-wrap">
           {policies.map((policy, index) => (
             <PolicyCard
-              imgsrc="/block.svg"
+              imgsrc="/diamond.svg"
               key={index}
               title={policy.title}
               description={policy.description}
