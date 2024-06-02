@@ -12,3 +12,12 @@ export const readPremium = async (id: bigint) => {
   });
   return result;
 };
+export const CheckCompletion = async (id: bigint) => {
+  const result = await readContract(config, {
+    abi: premium,
+    address: premiumAgentContract,
+    functionName: "isRunFinished",
+    args: [id],
+  });
+  return result;
+};

@@ -105,7 +105,7 @@ function Progress({ currentStep }: { currentStep: number }) {
                         <span className="text-sm font-bold text-black">
                           {step.name}
                         </span>
-                        <span className="text-sm font-medium text-gray-500">
+                        <span className="text-sm font-medium text-gray-800">
                           {step.description}
                         </span>
                       </span>
@@ -125,7 +125,7 @@ function Progress({ currentStep }: { currentStep: number }) {
                     >
                       <span className="flex-shrink-0">
                         <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-gray-300">
-                          <span className="text-black">{step.id}</span>
+                          <span className="text-gray-500">{step.id}</span>
                         </span>
                       </span>
                       <span className="ml-4 mt-0.5 flex min-w-0 flex-col">
